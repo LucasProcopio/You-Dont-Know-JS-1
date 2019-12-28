@@ -1,13 +1,15 @@
 # You Don't Know JS: Async & Performance
-# Chapter 6: Benchmarking & Tuning
+# Capítulo 6: Avaliação comparativa & Ajustes
 
-As the first four chapters of this book were all about performance as a coding pattern (asynchrony and concurrency), and Chapter 5 was about performance at the macro program architecture level, this chapter goes after the topic of performance at the micro level, focusing on single expressions/statements.
+Como nos primeiros quatro capítulos deste livro abordamos performance como padronização de código (
+assincronia e simultaneidade), e o capítulo 5 abordamos performance no nível arquitetural de programa macro, este capítulo aborda o tópico de performance no nível micro, focando em expressões singulares/declarativas.
 
-One of the most common areas of curiosity -- indeed, some developers can get quite obsessed about it -- is in analyzing and testing various options for how to write a line or chunk of code, and which one is faster.
+Uma das áreas mais comuns de curiosidade -- na verdade, alguns desenvolvedores ficam obcecados por isto -- é na análise e testes de várias opções de como escrever uma linha ou parte de um código, e qual dentre eles é mais rápido.
 
-We're going to look at some of these issues, but it's important to understand from the outset that this chapter is **not** about feeding the obsession of micro-performance tuning, like whether some given JS engine can run `++a` faster than `a++`. The more important goal of this chapter is to figure out what kinds of JS performance matter and which ones don't, *and how to tell the difference*.
+Abordaremos alguns destes problemas, mas é importante dizer desde o início que este capítulo **não** é sobre alimentar a obsessão em ajustes de micro-performance, tais como esta engine de JS pode rodar `++a` mais rápido que `a++`. O objetivo mais importante deste capítulo é descobrir quais tipos de performance em JS importam e quais não importam, *e como dizer a diferença*.
 
-But even before we get there, we need to explore how to most accurately and reliably test JS performance, because there's tons of misconceptions and myths that have flooded our collective cult knowledge base. We've got to sift through all that junk to find some clarity.
+Mas antes de chegarmos lá, precisamos explorar como testar a performance do JS de maneira mais precisa e confiável, porque existem muitos equívocos e mitos que inundaram nossa culta base de conhecimento coletivo.
+Temos que vasculhar em todo esse meio para encontrar alguma clareza.
 
 ## Benchmarking
 
