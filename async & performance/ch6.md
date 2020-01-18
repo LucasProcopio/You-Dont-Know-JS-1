@@ -11,35 +11,35 @@ Abordaremos alguns destes problemas, mas é importante dizer desde o início que
 Mas antes de chegarmos lá, precisamos explorar como testar a performance do JS de maneira mais precisa e confiável, porque existem muitos equívocos e mitos que inundaram nossa culta base de conhecimento coletivo.
 Temos que vasculhar em todo esse meio para encontrar alguma clareza.
 
-## Benchmarking
+## Avaliação comparativa
 
-OK, time to start dispelling some misconceptions. I'd wager the vast majority of JS developers, if asked to benchmark the speed (execution time) of a certain operation, would initially go about it something like this:
+OK, hora de começar a dessipar algung equívocos. Eu aposto que a maioria dos desenvolvedores JS, se pedir para fazer a comparação de velocidade (tempo de execução) de uma determinada operação, inicialmente faria algo parecido com isso:
 
 ```js
-var start = (new Date()).getTime();	// or `Date.now()`
+var start = (new Date()).getTime();	// ou `Date.now()`
 
-// do some operation
+// faz alguma operação
 
 var end = (new Date()).getTime();
 
-console.log( "Duration:", (end - start) );
+console.log( "Duração:", (end - start) );
 ```
 
-Raise your hand if that's roughly what came to your mind. Yep, I thought so. There's a lot wrong with this approach, but don't feel bad; **we've all been there.**
+Levante suas mãos se foi aproximadamente isso que veio à sua mente. Sim, foi o que pensei. Há muita coisa errada com essa abordagem, mas não se sinta mal; **todos nós já estivemos lá.**
 
-What did that measurement tell you, exactly? Understanding what it does and doesn't say about the execution time of the operation in question is key to learning how to appropriately benchmark performance in JavaScript.
+O que essa medida realmente diz? Entendendo o que diz e o que não sobre o tempo de execução da operação em questão, é a chave para aprender como comparar a performance de maneira apropriada no JavaScript.
 
-If the duration reported is `0`, you may be tempted to believe that it took less than a millisecond. But that's not very accurate. Some platforms don't have single millisecond precision, but instead only update the timer in larger increments. For example, older versions of windows (and thus IE) had only 15ms precision, which means the operation has to take at least that long for anything other than `0` to be reported!
+Se a duração relatada for `0`, você pode ser tentado a acreditar que levou menos de um milissegundo. Mas não é muito preciso. Algumas plataformas não têm precisão de milissegundos, mas, em vez disso, atualiza o cronômetro apenas em incrementos maiores. Por exemplo, versões mais antigas do windows (e assim IE) tem precisão somente de 15ms, o que significa que a operação deve levar pelo menos esse tempo para relatar qualquer coisa que não seja `0`!
 
-Moreover, whatever duration is reported, the only thing you really know is that the operation took approximately that long on that exact single run. You have near-zero confidence that it will always run at that speed. You have no idea if the engine or system had some sort of interference at that exact moment, and that at other times the operation could run faster.
+Além disso, qualquer que seja a duração relatada, a única coisa que você realmente sabe é que a operação demorou aproximadamente esse tempo naquela única execução. Você tem quase zero confiança de que sempre irá executar nessa velocidade. Você não tem idéia de que o motor do sistema tem algum tipo de interferência naquele exato momento, e que em outras vezes a operação poderá executar mais rápido.
 
-What if the duration reported is `4`? Are you more sure it took about four milliseconds? Nope. It might have taken less time, and there may have been some other delay in getting either `start` or `end` timestamps.
+E se a duração relatada for `4`? Você tem certeza que levou aproximadamente quatro milissegundos? Não. Pode ter levado menos tempo, e pôde haver algum outro atraso em obter o `início` ou `fim` dos timestamps.
 
-More troublingly, you also don't know that the circumstances of this operation test aren't overly optimistic. It's possible that the JS engine figured out a way to optimize your isolated test case, but in a more real program such optimization would be diluted or impossible, such that the operation would run slower than your test.
+Mais preocupante, você também não sabe que as circunstâncias deste teste de operação não são excessivamente otimizadas. É possível que o motor do JS descobriu uma forma de otimizar seu caso de teste isolado, mas em um programa real tal otimização pode ser diluída ou impossível, de modo que a operação pode ser mais lenta que seu teste.
 
-So... what do we know? Unfortunately, with those realizations stated, **we know very little.** Something of such low confidence isn't even remotely good enough to build your determinations on. Your "benchmark" is basically useless. And worse, it's dangerous in that it implies false confidence, not just to you but also to others who don't think critically about the conditions that led to those results.
+Então... o que sabemos? Infelizmente, com as realizações declaradas, **sabemos muito pouco.** Algo de tão baixa confiança não é nem remotamente bom o suficiente para se basear nas suas determinações. Sua comparação é basicamente inútil. E pior, é perigosa e implica falsa confiança, não apenas para você, mas também para outras pessoas que não pensam criticamente sobre as condições que levaram a esses resultados.
 
-### Repetition
+### Repetição
 
 "OK," you now say, "Just put a loop around it so the whole test takes longer." If you repeat an operation 100 times, and that whole loop reportedly takes a total of 137ms, then you can just divide by 100 and get an average duration of 1.37ms for each operation, right?
 
